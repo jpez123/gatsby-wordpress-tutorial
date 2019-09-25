@@ -1,6 +1,8 @@
 //Import libraries
 import React from "react";
 import MainMenu from './MainMenu';
+import {graphql, StaticQuery} from 'gatsby';
+import { Helmet } from 'react-helmet';
 
 //Styled components
 import styled, {createGlobalStyle} from 'styled-components';
@@ -23,6 +25,26 @@ const LayoutWrapper = styled.div`
 //Component
 const Layout = ({ children }) => (
   <div>
+    <StaticQuery query={graphql`
+      {
+        allWordpressWpFavicon {
+          edges {
+            node {
+              url {
+                id
+                source_url
+              }
+            }
+          }
+        }
+      }
+    `} render={ props =>
+      <Helmet>
+        <title>ABC</title>
+        <meta name="ABC" content="ABC" />
+        <link rel="icon" type="image/png" href={props.allWordpressWpFavicon.edges[0].node.url.source_url} sizes="16x16" />
+      </Helmet>
+    } />
     <GlobalStyles />
     <MainMenu />
     <LayoutWrapper>
